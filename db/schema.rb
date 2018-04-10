@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180410131153) do
+ActiveRecord::Schema.define(version: 20180410135959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,23 @@ ActiveRecord::Schema.define(version: 20180410131153) do
     t.integer "logo_file_size"
     t.datetime "logo_updated_at"
     t.index ["venue_id"], name: "index_events_on_venue_id"
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.bigint "ticket_id", null: false
+    t.bigint "order_id", null: false
+    t.integer "quantity", null: false
+    t.integer "price", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["ticket_id"], name: "index_order_items_on_ticket_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tickets", force: :cascade do |t|
@@ -92,5 +109,7 @@ ActiveRecord::Schema.define(version: 20180410131153) do
   end
 
   add_foreign_key "events", "venues"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "tickets"
   add_foreign_key "tickets", "events"
 end

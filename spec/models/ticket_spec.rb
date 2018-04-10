@@ -36,6 +36,4 @@ RSpec.describe Ticket, type: :model do
     subject.valid?
     expect(subject.errors[:event]).to_not be_empty
   end
-
-
 end
