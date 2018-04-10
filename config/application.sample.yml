@@ -1,0 +1,15 @@
+# Braintree configuration variables
+BRAINTREE_ENVIRONMENT: 'sandbox'
+BRAINTREE_MERCHANT_ID: ''
+BRAINTREE_PUBLIC_KEY: ''
+BRAINTREE_PRIVATE_KEY: ''
+
+development:
+  # Allows us to debug Rails requests
+  SCOUT_DEV_TRACE: 'true'
+
+staging:
+  # AWS SES configuration variables
+  SES_SMTP_HOST: ''
+  SES_SMTP_USERNAME: ''
+  SES_SMTP_PASSWORD: ''

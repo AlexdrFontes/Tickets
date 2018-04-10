@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title Ruby Exercise
+
+    = csrf_meta_tags
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  body
+    nav.navbar.navbar-expand-md.navbar-dark.fixed-top.bg-dark
+      = link_to 'Events', root_path, class: 'navbar-brand'
+
+    main role="main"
+      = yield

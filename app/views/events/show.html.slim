@@ -1,0 +1,29 @@
+.jumbotron
+  .container
+    = image_tag @event.logo, class: 'event-logo'
+    h1.display-3 = @event.name
+    p
+      // NOTE should we have a helper that allow us to display the dates in
+      // a different way? we could have many scenarios such as:
+      //  * one day event
+      //  * an event that spans between months
+      //  * an event that spans between years
+      //  * an event of multiple months (say what!?)
+      time datetime="#{@event.start_at}" = l @event.start_at, format: '%d %B, %Y'
+      '
+      |-
+      '
+      time datetime="#{@event.end_at}" = l @event.end_at, format: '%d %B, %Y'
+
+.container
+  .row
+    .col-md-8
+      h2 About
+      p = @event.description
+
+      h3 Tickets
+      p Something is really missing here, we really want to sell tickets for this event, if we still have tickets.
+
+    .col-md-4
+      h3 Location
+      p Something is missing here, we need the venue information.
