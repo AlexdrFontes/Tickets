@@ -59,4 +59,15 @@ Rails.application.configure do
   # Add Rack::LiveReload to the bottom of the middleware stack with
   # the default options:
   config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+  address:              'smtp.sendgrid.net',
+  port:                 587,
+  domain:               'example.com',
+  user_name:            'apikey',
+  password:             'sendgrid',
+  authentication:       'plain',
+  enable_starttls_auto: true  }
+
 end

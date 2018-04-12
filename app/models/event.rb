@@ -1,5 +1,6 @@
 class Event < ApplicationRecord
   belongs_to :venue
+  has_many :tickets
 
   validates_presence_of :name, :start_at, :end_at
   validate :start_at_bigger_than_today, :end_at_bigger_than_start_at

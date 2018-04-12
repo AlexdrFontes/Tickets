@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file,
   # see http://guides.rubyonrails.org/routing.html
   resources :events, only: :show
+  resource :cart, only: :create
+  resource :checkout, only: [:show, :create]
 
   root to: 'events#index', via: :get
 end

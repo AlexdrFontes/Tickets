@@ -1,0 +1,126 @@
+/= session[:cart].inspect
+
+- if @order.errors.any?
+  = @order.errors.full_messages.join(', ')
+  - @order.order_items.each do |order_item|
+    - if order_item.errors.any?
+      = order_item.errors.full_messages.join(', ')
+
+- @payment_errors.each do |error|
+  = error
+
+link#bootstrap-css href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" /
+script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"
+script src="//code.jquery.com/jquery-1.11.1.min.js"
+/! ---- Include the above in your HEAD tag --------
+.container.wrapper
+  .row.cart-body
+    .col-lg-6.col-md-6.col-sm-6.col-xs-12.col-md-push-6.col-sm-push-6
+        /! REVIEW ORDER
+        .panel.panel-info
+          .panel-heading
+            | Review Order
+            .pull-right
+              small
+                p Price
+          .panel-body
+            .form-group
+              .col-xs-12
+                .col-sm-12.col-xs-12
+                  - @order.order_items.each do |order_item|
+                    .row
+                      .col-sm-6.col-xs-6
+                        h4 = order_item.ticket.name
+                        Span>  Ticket for
+                        = order_item.ticket.event.name
+                        .row
+                        = order_item.quantity
+                        span>  tickets
+                        .row
+                        = order_item.price/1000
+                        span> €/each
+                      .col-sm-6.col-xs-6.text-right
+                        = order_item.quantity * order_item.price/1000
+                        span> €
+                    br/
+                    hr/
+            .form-group
+              .col-xs-12
+                strong Order Total
+                .pull-right
+                  span €
+                  span = @order.order_items.sum { |order_item| order_item.quantity * order_item.price }/1000
+            /! REVIEW ORDER END
+    .col-lg-6.col-md-6.col-sm-6.col-xs-12.col-md-pull-6.col-sm-pull-6
+      /! BILLING METHOD
+      .panel.panel-info
+        .panel-heading Address
+        .panel-body
+        = form_tag("/checkout", method: "post", id: "payment-form") do
+          section
+            input#nonce name="payment_method_nonce" type="hidden" /
+          .form-group
+            .col-md-12
+              strong Country:
+            .col-md-12
+              input.form-control name="country"
+          .form-group
+            .col-md-6.col-xs-12
+              strong First Name:
+              input.form-control name="first_name"
+            .span1
+            .col-md-6.col-xs-12
+              strong Last Name:
+              input.form-control name="last_name"
+          .form-group
+            .col-md-12
+              strong Address:
+            .col-md-12
+              input.form-control name="address"
+          .form-group
+            .col-md-12
+              strong City:
+            .col-md-12
+              input.form-control name="city"
+          .form-group
+            .col-md-12
+              strong Zip / Postal Code:
+            .col-md-12
+              input.form-control name="postal_code"
+          .form-group
+            .col-md-12
+              strong Email Address:
+            .col-md-12
+              input.form-control name="email"
+          .bt-drop-in-wrapper
+            #bt-dropin
+          button.btn.btn-primary.btn-submit-fix type="submit"
+            span Buy Tickets
+
+
+script src="https://js.braintreegateway.com/web/dropin/1.10.0/js/dropin.min.js"
+
+javascript:
+   var form = document.querySelector('#payment-form');
+   var client_token = "#{@client_token}";
+   braintree.dropin.create({
+     authorization: client_token,
+     container: '#bt-dropin',
+     paypal: {
+       flow: 'vault'
+     }
+   }, function (createErr, instance) {
+     form.addEventListener('submit', function (event) {
+       event.preventDefault();
+       instance.requestPaymentMethod(function (err, payload) {
+         if (err) {
+           console.log('Error', err);
+           return;
+         }
+
+         document.querySelector('#nonce').value = payload.nonce;
+         form.submit();
+       });
+     });
+   });
+

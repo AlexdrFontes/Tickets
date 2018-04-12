@@ -2,13 +2,17 @@ doctype html
 html
   head
     title Ruby Exercise
+    link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" rel="stylesheet" /
 
     = csrf_meta_tags
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    link#bootstrap-css href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" /
+    script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"
+    script src="//code.jquery.com/jquery-1.11.1.min.js"
   body
     nav.navbar.navbar-expand-md.navbar-dark.fixed-top.bg-dark
       = link_to 'Events', root_path, class: 'navbar-brand'
-
+      = link_to 'Checkout', checkout_path, class: 'navbar-brand'
     main role="main"
       = yield

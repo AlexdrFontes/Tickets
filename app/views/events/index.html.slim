@@ -1,7 +1,7 @@
 .jumbotron
   .container
-    h1.display-3 Let the exercise begin!
-    p This is main page of this exercise, we will want to display upcoming events below (limited to 3).
+    h1.display-3 Welcome to our Events!
+    p Please join us at:
 
 .container
   .row
@@ -12,3 +12,4 @@
           time datetime="#{event.start_at}" = l event.start_at
 
         p = link_to 'View details »', event_path(event), class: 'btn btn-secondary'
+

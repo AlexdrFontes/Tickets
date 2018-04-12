@@ -22,8 +22,25 @@
       p = @event.description
 
       h3 Tickets
-      p Something is really missing here, we really want to sell tickets for this event, if we still have tickets.
-
+      - @event.tickets.each do |t|
+        .ticket
+          = t.name
+          span>
+          strong
+            = t.price/1000
+            span> €
+      end
     .col-md-4
       h3 Location
-      p Something is missing here, we need the venue information.
+      p = @event.venue.address
+
+      h3 Buy Your Tickets here
+      = form_tag("/cart", method: "post") do
+        = select_tag 'ticket_id', options_for_select(@event.tickets.collect{ |u| [u.name, u.id] })
+        br/
+        input name="quantity" placeholder="How Many Tickets?"
+        br/
+        br/
+        button.btn type="submit"
+          span Add to Cart
+
